@@ -1,15 +1,20 @@
 async function getStockMetric(query, metricRegex) {
     console.log(`Fetching ${query}...`);
     try {
-        // Assuming google_web_search is a globally available function
-        const searchResults = await google_web_search(query);
-        const match = searchResults.match(metricRegex);
-        if (match && match[1]) {
-            const value = parseFloat(match[1]);
-            console.log(`Found value for ${query}: ${value}`);
-            return value;
+        const searchResults = await google_web_search({ query });
+        if (searchResults && searchResults.results) {
+            for (const result of searchResults.results) {
+                if (result.snippet) {
+                    const match = result.snippet.match(metricRegex);
+                    if (match && match[1]) {
+                        const value = parseFloat(match[1]);
+                        console.log(`Found value for ${query}: ${value}`);
+                        return value;
+                    }
+                }
+            }
         }
-        console.log(`Could not find value for ${query}`);
+        console.log(`Could not find value for ${query} in snippets`);
     } catch (error) {
         console.error(`Error fetching ${query}:`, error);
     }

@@ -66,10 +66,18 @@ class StockCard extends HTMLElement {
         const shadowRoot = this.shadowRoot;
         shadowRoot.querySelector('.stock-name').textContent = this.getAttribute('name');
         shadowRoot.querySelector('.stock-ticker').textContent = this.getAttribute('ticker');
-        shadowRoot.querySelector('.rsi').textContent = this.getAttribute('rsi') || 'N/A';
-        shadowRoot.querySelector('.psr').textContent = this.getAttribute('psr') || 'N/A';
-        shadowRoot.querySelector('.pbr').textContent = this.getAttribute('pbr') || 'N/A';
-        shadowRoot.querySelector('.sales-growth').textContent = (this.getAttribute('sales-growth') ? `${this.getAttribute('sales-growth')}%` : 'N/A');
+        
+        const rsi = this.getAttribute('rsi');
+        shadowRoot.querySelector('.rsi').textContent = (rsi === 'null' || rsi === null) ? 'N/A' : rsi;
+        
+        const psr = this.getAttribute('psr');
+        shadowRoot.querySelector('.psr').textContent = (psr === 'null' || psr === null) ? 'N/A' : psr;
+        
+        const pbr = this.getAttribute('pbr');
+        shadowRoot.querySelector('.pbr').textContent = (pbr === 'null' || pbr === null) ? 'N/A' : pbr;
+        
+        const salesGrowth = this.getAttribute('sales-growth');
+        shadowRoot.querySelector('.sales-growth').textContent = (salesGrowth === 'null' || salesGrowth === null) ? 'N/A' : `${salesGrowth}%`;
 
         const recommendation = shadowRoot.querySelector('.recommendation');
         const recommendationText = this.getAttribute('recommendation') || 'N/A';
