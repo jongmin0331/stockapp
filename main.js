@@ -66,24 +66,16 @@ class StockCard extends HTMLElement {
         const shadowRoot = this.shadowRoot;
         shadowRoot.querySelector('.stock-name').textContent = this.getAttribute('name');
         shadowRoot.querySelector('.stock-ticker').textContent = this.getAttribute('ticker');
-        
-        const rsi = this.getAttribute('rsi');
-        shadowRoot.querySelector('.rsi').textContent = (rsi === 'null' || rsi === null) ? 'N/A' : rsi;
-        
-        const psr = this.getAttribute('psr');
-        shadowRoot.querySelector('.psr').textContent = (psr === 'null' || psr === null) ? 'N/A' : psr;
-        
-        const pbr = this.getAttribute('pbr');
-        shadowRoot.querySelector('.pbr').textContent = (pbr === 'null' || pbr === null) ? 'N/A' : pbr;
-        
-        const salesGrowth = this.getAttribute('sales-growth');
-        shadowRoot.querySelector('.sales-growth').textContent = (salesGrowth === 'null' || salesGrowth === null) ? 'N/A' : `${salesGrowth}%`;
+        shadowRoot.querySelector('.rsi').textContent = this.getAttribute('rsi');
+        shadowRoot.querySelector('.psr').textContent = this.getAttribute('psr');
+        shadowRoot.querySelector('.pbr').textContent = this.getAttribute('pbr');
+        shadowRoot.querySelector('.sales-growth').textContent = this.getAttribute('sales-growth');
 
         const recommendation = shadowRoot.querySelector('.recommendation');
-        const recommendationText = this.getAttribute('recommendation') || 'N/A';
+        const recommendationText = this.getAttribute('recommendation');
         recommendation.textContent = recommendationText;
         recommendation.className = 'recommendation'; // Reset classes
-        recommendation.classList.add(recommendationText.toLowerCase().replace('/', ''));
+        recommendation.classList.add(recommendationText.toLowerCase());
     }
 }
 

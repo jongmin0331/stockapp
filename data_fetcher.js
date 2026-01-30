@@ -1,81 +1,17 @@
-async function getStockMetric(query, metricRegex) {
-    console.log(`Fetching ${query}...`);
-    try {
-        const searchResults = await google_web_search({ query });
-        if (searchResults && searchResults.results) {
-            for (const result of searchResults.results) {
-                if (result.snippet) {
-                    const match = result.snippet.match(metricRegex);
-                    if (match && match[1]) {
-                        const value = parseFloat(match[1]);
-                        console.log(`Found value for ${query}: ${value}`);
-                        return value;
-                    }
-                }
-            }
-        }
-        console.log(`Could not find value for ${query} in snippets`);
-    } catch (error) {
-        console.error(`Error fetching ${query}:`, error);
-    }
-    return null;
-}
+// For now, this file contains placeholder data.
+// In the future, it will be responsible for fetching real data.
 
-const stocks = {
-    kospi: [
-        { name: 'Samsung Electronics', ticker: '005930' },
-        { name: 'SK Hynix', ticker: '000660' },
-        { name: 'LG Energy Solution', ticker: '373220' },
-        { name: 'Hyundai Motor', ticker: '005380' },
-        { name: 'Naver', ticker: '035420' },
-    ],
-    nasdaq: [
-        { name: 'Apple', ticker: 'AAPL' },
-        { name: 'Microsoft', ticker: 'MSFT' },
-        { name: 'Amazon', ticker: 'AMZN' },
-        { name: 'NVIDIA', ticker: 'NVDA' },
-        { name: 'Tesla', ticker: 'TSLA' },
-    ]
-};
+export const kospiStocks = [
+    { name: 'Samsung Electronics', ticker: '005930', rsi: '45', psr: '1.8', pbr: '1.2', salesGrowth: '5%', recommendation: 'Buy' },
+    { name: 'SK Hynix', ticker: '000660', rsi: '60', psr: '2.5', pbr: '1.5', salesGrowth: '-2%', recommendation: 'Hold' },
+];
+
+export const nasdaqStocks = [
+    { name: 'Apple', ticker: 'AAPL', rsi: '55', psr: '6.5', pbr: '40', salesGrowth: '8%', recommendation: 'Hold' },
+    { name: 'NVIDIA', ticker: 'NVDA', rsi: '80', psr: '35', pbr: '50', salesGrowth: '50%', recommendation: 'Sell' },
+    { name: 'Tesla', ticker: 'TSLA', rsi: '48', psr: '8', pbr: '9', salesGrowth: '15%', recommendation: 'Buy' },
+];
 
 export async function fetchAllStockData() {
-    const allStocks = [...stocks.kospi, ...stocks.nasdaq];
-    const promises = allStocks.map(stock => (async () => {
-        console.log(`--- Fetching data for ${stock.name} ---`);
-        const rsi = await getStockMetric(`${stock.name} ${stock.ticker} RSI`, /(?:RSI\s*(?:is|as|of)?)\s*(\d{1,3}(?:\.\d+)?)/i);
-        const psr = await getStockMetric(`${stock.name} ${stock.ticker} PSR`, /(?:PSR\s*(?:is|as|of)?)\s*(\d{1,3}(?:\.\d+)?)/i);
-        const pbr = await getStockMetric(`${stock.name} ${stock.ticker} PBR`, /(?:PBR\s*(?:is|as|of)?)\s*(\d{1,3}(?:\.\d+)?)/i);
-        const salesGrowth = await getStockMetric(`${stock.name} ${stock.ticker} sales growth`, /(?:sales growth\s*(?:is|as|of)?)\s*(-?\d{1,3}(?:\.\d+)?)/i);
-        
-        console.log(`--- Finished fetching data for ${stock.name} ---`);
-        return {
-            ...stock,
-            rsi,
-            psr,
-            pbr,
-            salesGrowth,
-            recommendation: getRecommendation({ rsi, psr, pbr, salesGrowth })
-        };
-    })());
-
-    const allStockData = await Promise.all(promises);
-    
-    const kospiStocks = allStockData.filter(stock => stocks.kospi.some(k => k.ticker === stock.ticker));
-    const nasdaqStocks = allStockData.filter(stock => stocks.nasdaq.some(n => n.ticker === stock.ticker));
-
     return { kospiStocks, nasdaqStocks };
-}
-
-function getRecommendation({ rsi, psr, pbr, salesGrowth }) {
-    if (rsi === null || psr === null || pbr === null || salesGrowth === null) {
-        return 'N/A';
-    }
-
-    if (rsi < 50 && psr < 20 && pbr < 30 && salesGrowth > 0) {
-        return 'Buy';
-    } else if (rsi > 70) {
-        return 'Sell';
-    } else {
-        return 'Hold';
-    }
 }
