@@ -1,1 +1,156 @@
-/* Add styles here */
+:root {
+    --background-color: #0D1117;
+    --surface-color: #161B22;
+    --primary-text-color: #C9D1D9;
+    --secondary-text-color: #8B949E;
+    --buy-color: #238636;
+    --sell-color: #DA3633;
+    --hold-color: #FFC107;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, var(--background-color) 0%, #1a222e 100%);
+    color: var(--primary-text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 24px;
+    line-height: 1.6;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-text-color);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+}
+
+.stock-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.stock-card {
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border: 1px solid #30363d;
+}
+
+.stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.stock-name {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.stock-ticker {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.95rem;
+}
+
+.metric-label {
+    font-weight: 400;
+    color: var(--secondary-text-color);
+}
+
+.metric-value {
+    font-weight: 600;
+}
+
+.card-footer {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.recommendation {
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.recommendation.buy {
+    background-color: var(--buy-color);
+    color: #fff;
+}
+
+.recommendation.sell {
+    background-color: var(--sell-color);
+    color: #fff;
+}
+
+.recommendation.hold {
+    background-color: var(--hold-color);
+    color: #000;
+}
+
+.recommendation.n\/a {
+    background-color: #808080;
+    color: #fff;
+}
+
+.loader {
+    border: 8px solid #30363d;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -30px;
+    margin-top: -30px;
+    z-index: 10;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
